@@ -11,8 +11,8 @@ if (typeof formNewState === "object") {
 
 
 function onInputForm(event) {
-  let userEmail = event.currentTarget.elements.email.value.trim();
-  let userMessage = event.currentTarget.elements.message.value.trim();
+  const userEmail = event.currentTarget.elements.email.value.trim();
+  const userMessage = event.currentTarget.elements.message.value.trim();
 
   const formState = {
     email: userEmail,
@@ -25,9 +25,11 @@ function onInputForm(event) {
 function onFormSubmit(event) {
   event.preventDefault();
 
-  if (event.target.elements.email.value.length === 0 || event.target.elements.message.value.length === 0) {
-    alert ("Заповніть поля Email та Message");
+  if (event.target.elements.email.value.trim().length === 0 || event.target.elements.message.value.trim().length === 0) {
+    alert ("Please, fill in Email and Message fields");
   };
+
+  console.log(JSON.parse(localStorage.getItem('feedback-form-state')));
 
     localStorage.removeItem('feedback-form-state');
     form.reset();
