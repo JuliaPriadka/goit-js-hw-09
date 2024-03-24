@@ -4,13 +4,15 @@ form.addEventListener("submit", onFormSubmit);
 
 const formNewState = JSON.parse(localStorage.getItem('feedback-form-state'));
 
-form.elements.email.value = formNewState.email ?? '';
+if (typeof formNewState === "object") {
+  form.elements.email.value = formNewState.email ?? '';
+  form.elements.message.value = formNewState.message ?? '';
+}
 
-form.elements.message.value = formNewState.message ?? '';
 
 function onInputForm(event) {
-  let userEmail = event.currentTarget.elements.email.value;
-  let userMessage = event.currentTarget.elements.message.value;
+  let userEmail = event.currentTarget.elements.email.value.trim();
+  let userMessage = event.currentTarget.elements.message.value.trim();
 
   const formState = {
     email: userEmail,
@@ -21,7 +23,12 @@ function onInputForm(event) {
 }
 
 function onFormSubmit(event) {
-    event.preventDefault();
+  event.preventDefault();
+
+  if (event.target.elements.email.value.length === 0 || event.target.elements.message.value.length === 0) {
+    alert ("Заповніть поля Email та Message");
+  };
+
     localStorage.removeItem('feedback-form-state');
     form.reset();
 }
